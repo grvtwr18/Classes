@@ -1,88 +1,67 @@
 package com.ArrayList;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class MobilePhone {
 
-    private static Contacts con = new Contacts("","");
-    private static Scanner scanner = new Scanner(System.in);
+    private ArrayList<Contact> myContact = new ArrayList();
 
-    public static void printInstructions()
-    {
-        boolean count = true;
-
-        while(count)
-        {
-            System.out.println("Please enter your choice of opertaions to be performed");
-
-             int choice = scanner.nextInt();
-           switch (choice)
-           {
-               case 1: addNewContact();
-               break;
-               case 2: updateContact();
-               break;
-               case 3: removeContact();
-               break;
-               case 4: findContact();
-               break;
-               case 5: con.printListofContacts();
-               break;
-               case 6: System.out.println("You opted to quit");
-                   count = false;
-           }
-
+    public boolean findContact(String name) {
+        for (int i = 0; i < myContact.size(); i++) {
+            if (myContact.get(i).getName().equals(name)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
-    public static void addNewContact()
+    public boolean findContact(Contact con) {
+        for (int i = 0; i < myContact.size(); i++) {
+            if (myContact.get(i).getName().equals(con.getName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Contact queryContact(String name) {
+        Contact con;
+        for (int i = 0; i < myContact.size(); i++) {
+            if (myContact.get(i).getName().equals(name)) {
+                con = new Contact(myContact.get(i).getName(), myContact.get(i).getNumber());
+                return con;
+            }
+        }
+
+        return null;
+
+    }
+
+    public boolean addContact(Contact con) {
+        if (!findContact(con)) {
+            myContact.add(con);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateContact(Contact con, Contact modifiedContact)
+
     {
-        System.out.println("Enter the name to be added");
-        String name = scanner.next();
+            if (!findContact(modifiedContact.getName())) {
+                myContact.set(myContact.indexOf(con), modifiedContact);
+                return true;
+            }
 
-        System.out.println("Enter the number to be added");
-        String number = scanner.next();
-
-        con.addContact(new Contacts(name,number));
-
+        return false;
     }
 
-    public static void updateContact()
+    public void removeContact(Contact con)
     {
-
-        System.out.println("Enter the name to be modified");
-        String name = scanner.next();
-
-
-
-
+        myContact.remove(con);
     }
 
-    public static void findContact()
-    {
-        System.out.println("Enter the name to find the contact");
-        String name = scanner.next();
-
-        // con.searchContact(name);
-    }
-
-    public static void removeContact()
-    {
-        System.out.println("Enter the name of the contact to be removed");
-        String name = scanner.next();
-
-        //con.removeContact(name);
-    }
-
-    public static void main(String args[])
-    {
-
-        System.out.print("1. For adding the new contact "+"\n"+
-                        "2. For updating the existing contact"+"\n"+
-                        "3. For removing the existing contact"+"\n"+
-                        "4. For finding the existing contact"+"\n"+
-                        "5. For viewing the existing contact list"+"\n"+
-                        "6. Quit the value Contact Menu"+"\n");
-        printInstructions();
-    }
 }
