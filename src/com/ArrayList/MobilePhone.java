@@ -61,7 +61,18 @@ public class MobilePhone {
 
     public void removeContact(Contact con)
     {
+
         myContact.remove(con);
+
+    }
+    public void printContact()
+    {
+        System.out.println("The list of contact is as -:");
+        for (int i = 0; i < myContact.size(); i++)
+           {
+               System.out.println(myContact.get(i).getName()+ "  " + myContact.get(i).getNumber());
+            }
+
     }
 
 }
