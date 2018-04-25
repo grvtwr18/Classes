@@ -17,4 +17,11 @@ public class Contact {
     public String getNumber() {
         return number;
     }
+
+    public Contact createContact(String name, String number)
+    {
+        Contact con = new Contact(name, number);
+        return con;
+
+    }
 }

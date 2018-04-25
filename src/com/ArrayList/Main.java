@@ -7,7 +7,7 @@ public class Main {
 
     static Scanner sc = new Scanner(System.in);
     private static Contact con;
-    private static MobilePhone mb = new MobilePhone();
+    private static MobilePhone mb = new MobilePhone("9898988809");
 
     public static void addToContact()
     {
@@ -25,17 +25,25 @@ public class Main {
 
     public static void updateToContact()
     {
+
         System.out.println("Enter the name to be modified");
         String name = sc.next();
         if(mb.queryContact(name)!=null)
         {
-            con=mb.queryContact(name);
+
             System.out.println("Enter the updated name");
-            String upadatedname = sc.next();
+            String updatedname = sc.next();
             System.out.println("Enter the number to be updated");
             String updatedNumber = sc.next();
 
-            if(mb.updateContact(con,new Contact(upadatedname,updatedNumber)))
+
+            Contact con1 = mb.queryContact(name);
+
+          Contact newContact = con1.createContact(updatedname,updatedNumber);
+
+            System.out.println("----------"+con1.getName()+con1.getNumber());
+
+            if(mb.updateContact(con1,newContact))
                 System.out.println("The contact was added successfully");
             else
                 System.out.println("The contact was found to be either existing or not valid");
@@ -68,33 +76,47 @@ public class Main {
         if(mb.queryContact(name)!=null)
         {
             con = mb.queryContact(name);
+            //System.out.println(con.getName()+con.getNumber());
             mb.removeContact(con);
             System.out.println("The contact was removed successfully");
+        }else
+        {
+            System.out.println("The requested contact does not exist");
         }
 
     }
 
-    public static void printChoices(int n)
-    {
+    public static void printChoices() {
+        boolean enter = true;
+        while (enter) {
+
+            int choice = sc.nextInt();
 
 
-        switch (n)
-        {
-            case 1: addToContact();
+            switch (choice) {
+                case 1:
+                    addToContact();
+                    break;
+                case 2:
+                    updateToContact();
+                    break;
+                case 3:
+                    removeFromContact();
+                    break;
+                case 4:
+                    findFromContact();
+                    break;
+                case 5:
+                    mb.printContact();
+                    break;
+                case 6:
+                   enter = false;
+                   break;
+                default:
+                    System.out.println("The choice is not valid. Please enter valid choice");
+                     break;
+            }
 
-            case 2: updateToContact();
-
-            case 3: removeFromContact();
-
-            case 4: findFromContact();
-
-            case 5: mb.printContact();
-
-            case 6: return;
-            default:
-                System.out.println("The choice is not valid. Please enter valid choice");
-                int choice = sc.nextInt();
-                printChoices(choice);
         }
 
     }
@@ -109,8 +131,7 @@ public class Main {
                             "5. Print the list of Contact \n" +
                             "6. Quit the operation \n");
 
-        int choice = sc.nextInt();
-        printChoices(choice);
+        printChoices();
 
     }
 
